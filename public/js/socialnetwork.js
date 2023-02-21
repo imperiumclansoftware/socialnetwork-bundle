@@ -1,0 +1,1 @@
+/* Socialnetwork javascript file */

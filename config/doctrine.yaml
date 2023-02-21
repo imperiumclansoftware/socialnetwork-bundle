@@ -1,0 +1,10 @@
+doctrine:
+    orm:
+        mappings:
+            SocialnetworkBundle:
+                is_bundle: true
+                type: annotation
+                dir: 'src/Entity'
+                prefix: 'Ics\SocialnetworkBundle\Entity'
+                alias: Socialnetwork
+    
