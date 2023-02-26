@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+    {% block title %}{% trans %}Social Networks{% endtrans %}{% endblock %}
+
+    {% block body %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <h1>{% trans %}Social Networks homepage{% endtrans %}</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <a href="{{ path('ics-socialnetwork-instagram-homepage') }}">Instagram</a>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block stylesheets %}
+    
+    {% endblock %}
+
+    {% block javascripts %}
+    
+    {% endblock %}
+    

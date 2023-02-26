@@ -2,18 +2,13 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
-    #Ics\SocialnetworkBundle\Controller\:
-        #resource: "../src/Controller"
-        #tags: ['controller.services_arguments']
-    #Ics\SocialnetworkBundle\Service\:
-        #resource: "../src/Service"
-        #tags: ['controller.services_arguments']
-    #Ics\SocialnetworkBundle\Command\:
-        #resource: "../src/Command"
-        #tags: ['controller.services_arguments']
-    #Ics\SocialnetworkBundle\Twig\:
-        #resource: "../src/Twig"
-        #tags: ['controller.services_arguments']
-    #Ics\SocialnetworkBundle\Form\:
-        #resource: "../src/Form"
-        #tags: ['controller.services_arguments']
+    ICS\SocialnetworkBundle\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+    ICS\SocialnetworkBundle\Twig\:
+        resource: "../src/Twig"
+        public: false
+        tags: ['twig.extension']

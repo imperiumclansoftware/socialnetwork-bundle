@@ -5,6 +5,6 @@ doctrine:
                 is_bundle: true
                 type: annotation
                 dir: 'src/Entity'
-                prefix: 'Ics\SocialnetworkBundle\Entity'
+                prefix: 'ICS\SocialnetworkBundle\Entity'
                 alias: Socialnetwork
     

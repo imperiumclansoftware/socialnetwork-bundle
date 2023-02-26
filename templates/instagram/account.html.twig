@@ -1,0 +1,47 @@
+{% extends "base.html.twig" %}
+
+    {% block title %}{% trans %}Instagram{% endtrans %}{% endblock %}
+    {% block body %}
+        <div class="container-fluid">
+            <div class="row my-3">
+                <div class="col-2">
+                {% if result.profilePicture != null and result.profilePicture.path != '' %}
+                    <img class="img-thumbnail rounded rounded-circle" src="{{ asset(result.profilePicture)|default('') }}" alt="{{ result.name }} profile picture">
+                {% endif %}
+                </div>
+                <div class="col-10">
+                    {% if result.verified %}
+                        <span class="float-start text-warning"><i class="fa fa-star"></i></span>
+                    {% endif %}
+                    <h1>{{ result.fullname }}</small></h1>
+                    <span class="float-end text-muted">{{ result.followers|HumanRead }} followers</span>
+                    <div>{{ result.biography|raw }}</div>
+                </div>
+            </div>
+            {% for medias in result.timeline|batch(3,null) %}
+            <div class="row">            
+                {% for media in medias %}
+                    {% if media != null %}
+                        <div class="col-4 my-3">
+                            <div class="card">
+                                {{ getInstagramMedia(media) }}
+                                <div class="card-body">
+                                    {{ media.caption|raw  }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>    
+            {% endfor %}
+        </div>
+    {% endblock %}
+
+    {% block stylesheets %}
+    
+    {% endblock %}
+
+    {% block javascripts %}
+    
+    {% endblock %}
+    

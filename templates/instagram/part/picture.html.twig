@@ -1,0 +1,3 @@
+{% if media.picture and media.picture.path != '' %}
+    <img src="{{  asset(media.picture) }}" alt="" class="crd-img-top">
+{% endif %}

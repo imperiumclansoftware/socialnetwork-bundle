@@ -1,0 +1,115 @@
+{% extends "base.html.twig" %}
+
+    {% block title %}{% trans %}Instagram{% endtrans %}{% endblock %}
+    {% block body %}
+        {% set accounts = [
+            '__alena_witch__',
+            'alessandraambrosio',
+            'amandacerny',
+            'anaisgrangerac',
+            'annehathaway',
+            'bellathorne',
+            'britneyspears',
+            'camila_cabello',
+            'chiaraferragni',
+            'claramofficiel',
+            'claruspolaris',
+            'debbyryan',
+            '__devochkassevera__',
+            'devochkassevera___',
+            'dualipa',
+            'elodiegossuin',
+            'emeraude',
+            'emiliebroussouloux',
+            'emrata',
+            'evacolas',
+            'frederiquebel_',
+            'gal_gadot',
+            'gwenstefani',
+            'heidiklum',
+            'iamyanetgarcia',
+            'instashym',
+            'irismittenaeremf',
+            'kaitlynkrems',
+            'lauramarano',
+            'leamichele',
+            'maevacoucke',
+            'maiamitchell',
+            'notcloconut',
+            'selenagomez',
+            'sofiacarson',
+            'vanessahudgens',
+            'victoriajustice',
+            'xxbearhugs',
+            'yoventura',
+            'yellz0',
+            'elodie_fontan',
+            'candicepascal',
+            'zendaya'
+        ] %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <h1>{% trans %}Instagram homepage{% endtrans %}</h1>
+                </div>
+            </div>
+            
+            {% for accountes in accounts|batch(4) %}
+                <div class="row">
+                {% for account in accountes %}
+                    <div class="col-3 my-3">
+                        <div class="card account h-100" data-account="{{ account }}">
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="{{ path('ics-socialnetwork-instagram-account',{name : account}) }}">
+                                        {{ account }}
+                                    </a>
+                                </h4>
+                                <p class="biography"><div class="spinner-border" role="status"></div></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+                
+            {% endfor %}
+            
+        </div>
+    {% endblock %}
+
+    {% block stylesheets %}
+    
+    {% endblock %}
+
+    {% block javascripts %}
+        <script>
+            $(document).ready(function(){
+                $('.account').each(function(index,element){
+                    var accountName = $(element).attr('data-account');
+                    var el= $(element);
+                    $.ajax({
+                        url: "{{ path('ics-socialnetwork-instagram-preview') }}",
+                        method: 'POST',
+                        dataType: 'HTML',
+                        data: {
+                            account: accountName
+                        }
+                    }).done(function(account){
+                        
+                        if(account.trim() != 'nok')
+                        {
+                            el.html(account);
+                        }
+                        else
+                        {
+                            el.find('.card-body').find('.biography').html('');
+                        }
+                        
+                    });
+                });
+
+                
+            });
+        </script>
+    {% endblock %}
+    

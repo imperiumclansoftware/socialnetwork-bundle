@@ -1,0 +1,25 @@
+<div id="carousel{{ media.id  }}" class="carousel slide">
+  <div class="carousel-inner">
+    {% for med in media.elements %}
+        {% if med %}
+            <div class="carousel-item {% if loop.first %}active{% endif %}">
+            {% if med.picture is defined and med.picture != '' %}
+                <img src="{{ asset(med.picture) }}" class="d-block w-100" alt="...">
+            {% endif %}
+            {% if med.video is defined and med.video != '' %}
+                <video src="{{ asset(med.video) }}" controls="true" class="d-block w-100" alt="..."></video>
+            {% endif %}
+                
+            </div>    
+        {% endif %}
+    {% endfor %}
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ media.id  }}" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ media.id  }}" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>

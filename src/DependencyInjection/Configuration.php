@@ -1,6 +1,6 @@
 <?php
 
-    namespace Ics\SocialnetworkBundle\DependencyInjection;
+    namespace ICS\SocialnetworkBundle\DependencyInjection;
 
     use Symfony\Component\Config\Definition\ConfigurationInterface;
     use Symfony\Component\Config\Definition\Builder\TreeBuilder;

@@ -1,0 +1,15 @@
+navigation:
+  navbars:
+    mainnav:
+      items:
+        social_network:
+          lib: Social Networks
+          icon: fa-solid fa-share-nodes
+          route: ics-socialnetwork-homepage
+          order: 100
+          childs:
+            instagram:
+              lib: Instagram
+              icon: fab fa-instagram
+              route: ics-socialnetwork-instagram-homepage
+              order: 100

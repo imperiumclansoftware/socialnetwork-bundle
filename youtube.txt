@@ -1,0 +1,7 @@
+var id = 'dQw4w9WgXcQ';
+var url = 'https://www.youtube.com/watch?v=' + id;
+
+$.getJSON('https://noembed.com/embed',
+    {format: 'json', url: url}, function (data) {
+    alert(data.title);
+});

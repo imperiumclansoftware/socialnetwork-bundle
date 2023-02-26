@@ -15,7 +15,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "/home/emperor/Developpements/Symfony/Bundles/SocialNetworkBundle\\"
+            "url": "/home/emperor/Developpements/Symfony/Bundles/SocialNetworkBundle"
         }
     ]
 }
