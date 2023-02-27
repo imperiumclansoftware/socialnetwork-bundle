@@ -2,54 +2,12 @@
 
     {% block title %}{% trans %}Instagram{% endtrans %}{% endblock %}
     {% block body %}
-        {% set accounts = [
-            '__alena_witch__',
-            'alessandraambrosio',
-            'amandacerny',
-            'anaisgrangerac',
-            'annehathaway',
-            'bellathorne',
-            'britneyspears',
-            'camila_cabello',
-            'chiaraferragni',
-            'claramofficiel',
-            'claruspolaris',
-            'debbyryan',
-            '__devochkassevera__',
-            'devochkassevera___',
-            'dualipa',
-            'elodiegossuin',
-            'emeraude',
-            'emiliebroussouloux',
-            'emrata',
-            'evacolas',
-            'frederiquebel_',
-            'gal_gadot',
-            'gwenstefani',
-            'heidiklum',
-            'iamyanetgarcia',
-            'instashym',
-            'irismittenaeremf',
-            'kaitlynkrems',
-            'lauramarano',
-            'leamichele',
-            'maevacoucke',
-            'maiamitchell',
-            'notcloconut',
-            'selenagomez',
-            'sofiacarson',
-            'vanessahudgens',
-            'victoriajustice',
-            'xxbearhugs',
-            'yoventura',
-            'yellz0',
-            'elodie_fontan',
-            'candicepascal',
-            'zendaya'
-        ] %}
-        <div class="container-fluid">
+        <div class="container-fluid my-3">
             <div class="row">
                 <div class="col-12">
+                    <div class="btn-group float-end">
+                        <button data-bs-toggle="modal" data-bs-target="#modal-addAccount" class="btn btn-primary"><i class="fa fa-plus"></i> Ajouter un compte</button>
+                    </div>
                     <h1>{% trans %}Instagram homepage{% endtrans %}</h1>
                 </div>
             </div>
@@ -58,11 +16,11 @@
                 <div class="row">
                 {% for account in accountes %}
                     <div class="col-3 my-3">
-                        <div class="card account h-100" data-account="{{ account }}">
+                        <div class="card account h-100" data-account="{{ account.name }}">
                             <div class="card-body">
                                 <h4 class="card-title">
-                                    <a href="{{ path('ics-socialnetwork-instagram-account',{name : account}) }}">
-                                        {{ account }}
+                                    <a href="{{ path('ics-socialnetwork-instagram-account',{name : account.name}) }}">
+                                        {{ account.name }}
                                     </a>
                                 </h4>
                                 <p class="biography"><div class="spinner-border" role="status"></div></p>
@@ -75,6 +33,23 @@
             {% endfor %}
             
         </div>
+        <div class="modal" id="modal-addAccount" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{% trans %}Add Instagram account{% endtrans %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input class="form-control" id="addAccount" type="text" placeholder="Instagram account name"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="addAccount" class="btn btn-success"><i class="fa fa-save"></i> {% trans %}Save{% endtrans %}</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
     {% endblock %}
 
     {% block stylesheets %}
@@ -108,7 +83,17 @@
                     });
                 });
 
-                
+                $('button#addAccount').click(function(){
+                    var account = $('input#addAccount').val();
+                    $('#modal-addAccount').modal('hide');
+                    $.ajax({
+                        url: "{{ path('ics-socialnetwork-instagram-account') }}/" + account,
+                        dataType: 'HTML',
+                    }).done(function(data){
+                        window.location = "{{ path('ics-socialnetwork-instagram-account') }}/" + account;
+                    });
+                });
+
             });
         </script>
     {% endblock %}

@@ -15,10 +15,11 @@ use Symfony\Component\HttpFoundation\Request;
         /**
          * @Route("/instagram", name="ics-socialnetwork-instagram-homepage")
          */
-        public function index()
+        public function index(EntityManagerInterface $em)
         {
+            $accounts = $em->getRepository(InstagramAccount::class)->findBy([],['name' => 'ASC']);
             return $this->render("@Socialnetwork\instagram\instagram.html.twig",[
-
+                'accounts' => $accounts
             ]);
         }
 

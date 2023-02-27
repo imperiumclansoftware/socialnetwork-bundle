@@ -1,10 +1,15 @@
 <div id="carousel{{ media.id  }}" class="carousel slide">
+  <div class="carousel-indicators">
+    {% for med in media.elements %}
+    <button type="button" data-bs-target="#carousel{{ media.id  }}" data-bs-slide-to="{{ loop.index - 1 }}" class="{% if loop.first %}active{% endif %}"></button>
+    {% endfor %}
+  </div>
   <div class="carousel-inner">
     {% for med in media.elements %}
         {% if med %}
             <div class="carousel-item {% if loop.first %}active{% endif %}">
             {% if med.picture is defined and med.picture != '' %}
-                <img src="{{ asset(med.picture) }}" class="d-block w-100" alt="...">
+                <img src="{{ asset(med.picture) }}" class="d-block w-100">
             {% endif %}
             {% if med.video is defined and med.video != '' %}
                 <video src="{{ asset(med.video) }}" controls="true" class="d-block w-100" alt="..."></video>

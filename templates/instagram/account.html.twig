@@ -26,6 +26,7 @@
                             <div class="card">
                                 {{ getInstagramMedia(media) }}
                                 <div class="card-body">
+                                <div class="text-muted">Date : {{ media.date|date('d/m/Y H:i') }}</div>
                                     {{ media.caption|raw  }}
                                 </div>
                             </div>

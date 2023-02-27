@@ -8,6 +8,9 @@ use ICS\MediaBundle\Repository\MediaFileRepository;
 use ICS\MediaBundle\Service\MediaService;
 use ICS\SocialnetworkBundle\Entity\Instagram\InstagramAccount;
 use ICS\SocialnetworkBundle\Entity\Instagram\InstagramMedia;
+use ICS\SocialnetworkBundle\Entity\Instagram\Medias\InstagramPicture;
+use ICS\SocialnetworkBundle\Entity\Instagram\Medias\InstagramSidecar;
+use ICS\SocialnetworkBundle\Entity\Instagram\Medias\InstagramVideo;
 use Symfony\Component\BrowserKit\HttpBrowser;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpClient\HttpClient;
@@ -66,8 +69,9 @@ class InstagramService
         
         if(!file_exists($finalPath.'/'.$filename) or $filename =='profile.jpg')
         {
-            $this->browser->request('GET',$url);
-            $content = $this->browser->getResponse()->getContent();
+            $browser=new HttpBrowser();
+            $browser->request('GET',$url);
+            $content = $browser->getResponse()->getContent();
             
             
             if(!file_exists($finalPath))
@@ -105,19 +109,36 @@ class InstagramService
         $updatedAccount = $this->getAccount($account->getName());
 
         //? Update profile picture
-        // if($updatedAccount->getProfilePicture() != '')
-        // {
-        //     $newProfile = $this->getMedia($account, $updatedAccount->getProfilePicture(),'profile.jpg');
-        //     $account->setProfilePicture($newProfile);
-        //     $nbUpdate++;
-        // }
+        if($updatedAccount->getProfilePicture() != '')
+        {
+            // ? Remove Old profile picture
+            $oldpicture=$account->getProfilePicture();
+            if($oldpicture != null)
+            {
+                $account->setProfilePicture(null);
+                $this->em->persist($account);
+                $this->em->remove($oldpicture);
+                $this->em->flush();
+            }
+            
+            // ?D ownload new pofile picture
+            $newProfile = $updatedAccount->getProfilePicture();
+            $account->setProfilePicture($newProfile);
+            $nbUpdate++;
+        }
         
         //? Update fullname
-
+        $account->setFullname($updatedAccount->getFullname());
+        $nbUpdate++;
         //? Update biography
-
+        $account->setBiography($updatedAccount->getBiography());
+        $nbUpdate++;
         //? Update followers count
-
+        $account->setFollowers($updatedAccount->getFollowers());
+        $nbUpdate++;
+        //? Updated Verified status
+        $account->setVerified($updatedAccount->getVerified());
+        $nbUpdate++;
         //? Update timeline
         foreach($updatedAccount->getTimeline() as $media)
         {
@@ -143,6 +164,18 @@ class InstagramService
         {
             if($med->getId() == $media->getId())
             {
+                if(is_a($med,InstagramVideo::class) or is_a($med,InstagramSidecar::class))
+                {
+                    if(
+                        (is_a($med,InstagramVideo::class) and $med->getVideo() ==null) or
+                        (is_a($med,InstagramSidecar::class) and count($med->getElements()) == 0) or
+                        (is_a($med,InstagramPicture::class) and $med->getPicture() ==null)
+                    )
+                    {
+                        $this->em->remove($med);
+                        return false;
+                    }
+                }
                 return true;
             }
         }
