@@ -1,0 +1,53 @@
+{% block socialnetwork_widget %}
+<div class="container-fluid" id="sna_{{ id }}">
+        {% for entity in entities %}    
+            <div class="row" >
+                <div class="col-4">
+                    <select name="{{ name }}_type[{{ loop.index }}]" class="form-select">
+                        {% for type in types %}
+                            <option value="{{ type }}">{{ type|typeName }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-8">
+                    <input name="{{ name }}_account[{{ loop.index }}]" class="form-control" type="text" placeholder="Account name"/>
+                </div>
+            </div>
+        {% endfor %}
+</div>
+
+{% set formString %}
+    <div class="row" >
+        <div class="col-4">
+            <select name="selectname" class="form-select">
+                {% for type in types %}
+                    <option value="{{ type }}">{{ type|typeName }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-8">
+            <input name="textname" class="form-control" type="text" placeholder="Account name"/>
+        </div>
+    </div>
+{% endset %}
+
+<script>
+
+    $(document).ready(function(){
+
+        var formHtml='{{ formString|raw("js")|spaceless }}';
+        var currentNumber = $('#sna_{{ id }}').children().length + 1;
+        var selectname="{{ name }}_type[" + currentNumber + "]";
+        var textname="{{ name }}_account[" + currentNumber + "]";
+        
+        formHtml.replace('selectname', selectname);
+        formHtml.replace('textname', textname);
+        
+        alert(formHtml);
+        
+        $('#sna_{{ id }}').append(formHtml);
+
+    });
+</script>
+
+{% endblock %}

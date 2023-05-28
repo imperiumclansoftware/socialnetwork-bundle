@@ -15,6 +15,7 @@ class InstagramSidecar extends InstagramMedia
 {
     /**
      * @ORM\OneToMany(targetEntity=InstagramMedia::class, mappedBy="sidecar", cascade={"persist"})
+     * @ORM\OrderBy({"date": "DESC"})
      */
     private $elements;
 

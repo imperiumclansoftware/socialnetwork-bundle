@@ -14,7 +14,10 @@
             {% if med.video is defined and med.video != '' %}
                 <video src="{{ asset(med.video) }}" controls="true" class="d-block w-100" alt="..."></video>
             {% endif %}
-                
+              <div class="carousel-caption d-none d-md-block">
+                <span class="badge bg-dark text-light">{{ loop.index }} / {{ media.elements|length }}</span>
+              </div>
+
             </div>    
         {% endif %}
     {% endfor %}

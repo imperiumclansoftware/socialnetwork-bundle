@@ -3,12 +3,14 @@
     namespace ICS\SocialnetworkBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use ICS\SocialnetworkBundle\Entity\Instagram\InstagramAccount;
 use ICS\SocialnetworkBundle\Service\InstagramService;
 use Symfony\Component\Routing\Annotation\Route;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
     class InstagramController extends AbstractController
     {
@@ -64,5 +66,24 @@ use Symfony\Component\HttpFoundation\Request;
             }
 
             return new JsonResponse($name);
+        }
+
+        /**
+         * @Route("/instagram/remove/account", name="ics-socialnetwork-instagram-account-remove")
+         */
+        public function accountRemove(Request $request,EntityManagerInterface $em)
+        {
+            $accountId = $request->get('account',null);
+            try
+            {
+                $account = $em->getRepository(InstagramAccount::class)->find($accountId);
+                $em->remove($account);
+                $em->flush();
+                return new Response('ok');
+            }
+            catch(Exception $ex)
+            {
+                return new Response('nok');
+            }
         }
     }

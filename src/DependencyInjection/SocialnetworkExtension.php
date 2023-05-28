@@ -26,6 +26,8 @@
             $loader->load('security.yaml');
             // Loading doctrine config
             $loader->load('doctrine.yaml');
+            // Loading doctrine config
+            $loader->load('twig.yaml');
             // Loading specific bundle config
             $bundles = $container->getParameter('kernel.bundles');
             if(isset($bundles['NavigationBundle']))

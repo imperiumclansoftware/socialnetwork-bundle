@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  * @ORM\Table(schema="socialnetwork")
+ * @ORM\HasLifecycleCallbacks
  */
 class InstagramAccount extends SocialAccount
 {
@@ -25,7 +26,7 @@ class InstagramAccount extends SocialAccount
 	 */
     private $biography;
 	/**
-	 * @ORM\OneToMany(targetEntity=InstagramMedia::class, mappedBy="account", cascade={"persist"})
+	 * @ORM\OneToMany(targetEntity=InstagramMedia::class, mappedBy="account", cascade={"persist","remove"})
 	 * @ORM\OrderBy({"date": "DESC"})
 	 */
     private $timeline;
@@ -123,12 +124,6 @@ class InstagramAccount extends SocialAccount
 	function getVerified() {
 		return $this->verified;
 	}
-
-	function setVerified($verified) {
-		$this->verified = $verified;
-		return $this;
-	}
-
 	function getInstagramId() {
 		return $this->instagramId;
 	}
@@ -138,4 +133,13 @@ class InstagramAccount extends SocialAccount
 		return $this;
 	}
 
+	static function getTypeName()
+	{
+		return 'Instagram';
+	}
+	function setVerified($verified) {
+		$this->verified = $verified;
+		return $this;
+	}
+	
 }

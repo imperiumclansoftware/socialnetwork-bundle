@@ -15,7 +15,14 @@
                     {% endif %}
                     <h1>{{ result.fullname }}</small></h1>
                     <span class="float-end text-muted">{{ result.followers|HumanRead }} followers</span>
-                    <div>{{ result.biography|raw }}</div>
+                    <div>
+                        <div class="btn-group float-end">
+                            <div id="removeAccount" class="btn btn-danger">
+                                <i class="fa fa-trash"></i> Supprimer
+                            </div>
+                        </div>
+                        {{ result.biography|raw }}
+                    </div>
                 </div>
             </div>
             {% for medias in result.timeline|batch(3,null) %}
@@ -36,6 +43,26 @@
             </div>    
             {% endfor %}
         </div>
+        <script>
+            $('#removeAccount').click(function(){
+
+                $.ajax({
+                    url: "{{ path('ics-socialnetwork-instagram-account-remove') }}",
+                    method: 'POST',
+                    data: {
+                        account: {{ result.id }}
+                    }
+
+                }).done(function(data){
+                    if(data == 'ok')
+                    {
+                        window.location = "{{ url('ics-socialnetwork-instagram-homepage') }}";
+                    }
+                });
+
+            });
+
+        </script>
     {% endblock %}
 
     {% block stylesheets %}
@@ -43,6 +70,6 @@
     {% endblock %}
 
     {% block javascripts %}
-    
+        
     {% endblock %}
     

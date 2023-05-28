@@ -2,8 +2,20 @@
     <img src="{{ asset(account.profilePicture)  }}" alt="" class="car-img-top">
     <div class="card-body">
         <h4 class="card-title">{{ account.fullname|default(account.name) }} <small class="text-muted">({{ account.name }})</small></h4>
-        <div class="text-muted"><i class="fa fa-users"></i> {{ account.followers|HumanRead }}</div>
-        <div class="text-center">
+        {% if account.timeline|length > 1 %}
+        <p class="card-text text-info">
+            Derniers médias du {{ account.timeline[0].date|date('d/m/Y')  }}
+        </p>
+        {% endif %}
+        <div class="text-muted">
+            <span class="float-end">
+                {{ account.updateDate|date('d/m/Y H:i') }}
+            </span>
+            <i class="fa fa-users"></i> {{ account.followers|HumanRead }}</div>
+        </div>
+        
+        
+        <div class="text-center my-3">
             <a href="{{ path('ics-socialnetwork-instagram-account',{name: account.name}) }}" class="btn btn-primary"><i class="fa fa-eye"></i> Voir</a>
         </div>
     </div>

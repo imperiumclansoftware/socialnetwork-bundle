@@ -1,3 +1,0 @@
-twig:
-  form_themes:
-    - '@Media/Twig/Form/MediaFileType.html.twig'

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(schema="socialnetwork")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\HasLifecycleCallbacks
  */
 abstract class SocialAccount
 {
@@ -27,9 +28,13 @@ abstract class SocialAccount
 	 */
     protected $followers;
 	/**
-	 * @ORM\ManyToOne(targetEntity=MediaImage::class, cascade={"persist"})
+	 * @ORM\ManyToOne(targetEntity=MediaImage::class, cascade={"persist","remove"})
 	 */
     protected $profilePicture=null;
+	/**
+	 * @ORM\Column(type="datetime", nullable=true)
+	 */
+	protected $updateDate;
 
 	function getId() {
 		return $this->id;
@@ -66,5 +71,24 @@ abstract class SocialAccount
 		$this->profilePicture = $profilePicture;
 		return $this;
 	}
+
+	abstract static function getTypeName();
+
+	function getUpdateDate() {
+		return $this->updateDate;
+	}
+
+	function setUpdateDate($updateDate) {
+		$this->updateDate = $updateDate;
+		return $this;
+	}
+
+	/**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue(): void
+    {
+        $this->updateDate = new \DateTime();
+    }
 
 }

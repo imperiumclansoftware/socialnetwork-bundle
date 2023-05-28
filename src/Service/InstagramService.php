@@ -1,6 +1,7 @@
 <?php
 namespace ICS\SocialnetworkBundle\Service;
 
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use ICS\MediaBundle\Entity\MediaFile;
@@ -27,6 +28,7 @@ class InstagramService
     public function __construct(KernelInterface $kernel,EntityManagerInterface $em, MediaService $mediaService, ParameterBagInterface $parameterBagInterface)
     {
         $this->browser = new HttpBrowser(HttpClient::create());
+        
         $this->basePath = $kernel->getProjectDir().'/public';
         $this->mediaService = $mediaService;
         $this->mediasParameters = $parameterBagInterface->get('medias');
@@ -36,7 +38,8 @@ class InstagramService
     public function getAccount(string $name, bool $preview = false)
     {
         $this->browser->request('GET',"https://www.instagram.com/".$name."?__a=1&__d=dis",[
-            'Accept' => 'application/json'
+            'Accept' => 'application/json',
+            'User-Agent' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0',
         ]);
 
         $result=$this->browser->getResponse();
@@ -150,7 +153,7 @@ class InstagramService
                 $nbUpdate++;
             }
         }
-
+        $account->setUpdateDate(new DateTime());
         $this->em->persist($account);
         $this->em->flush();
 
@@ -183,4 +186,9 @@ class InstagramService
         return false;
     }
 
+    private function search(string $search)
+    {
+        //TODO : Rédiger la recherch avec l'url : https://www.instagram.com/web/search/topsearch/?query=$search
+        
+    }
 }
