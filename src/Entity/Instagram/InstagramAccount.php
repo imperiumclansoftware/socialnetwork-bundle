@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class InstagramAccount extends SocialAccount
 {
 	/**
-	 * @ORM\Column(type="integer")
+	 * @ORM\Column(type="bigint")
 	 */
 	private $instagramId;
 	/**

@@ -18,7 +18,7 @@ use ICS\MediaBundle\Entity\MediaImage;
 abstract class InstagramMedia
 {
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint")
      * @ORM\Id
      */
     private $id;
